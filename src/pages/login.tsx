@@ -1,12 +1,17 @@
-import { FC, useRef } from "react";
+import { FC, useRef, useState } from "react";
 import FloatingField from "../componets/reusable/forms/Floating-Field";
 import UsernameLogo from "../componets/svg/UsernameLogo";
 import { userLogin } from "../services/auth";
 import { useNavigate } from "react-router-dom";
+import ErrorModal from "../componets/modals/Error-modal";
+import LoadingScreen from "../componets/loadingScreen";
 
 const Login: FC = () => {
   const userNameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   async function onsubmit() {
@@ -15,12 +20,25 @@ const Login: FC = () => {
         userName: userNameRef?.current.value.toString(),
         password: passwordRef?.current.value.toString(),
       });
-      navigate("/home");
+      if (res.message) {
+        toggleModal();
+        setErrorMessage(res.message);
+        return;
+      }
+      setIsLoading(true);
+      setTimeout(() => {
+        navigate("/main");
+      }, 1000);
     }
   }
 
+  function toggleModal() {
+    setIsError((prev) => !prev);
+  }
+
   return (
-    <div className="flex justify-center items-center w-full z-10 h-[92vh] py-10">
+    <div className="flex flex-col gap-10 justify-center items-center w-full z-10 h-[100vh] py-10 bg-secondary">
+      <div className="text-white text-[4rem] font-bold">My Todo App</div>
       <div className="bg-red  w-[30rem] bg-white px-10 py-14 rounded-2xl flex flex-col gap-y-10">
         <div className="text-center text-3xl font-bold text-tertiary">
           <p>LOGIN</p>
@@ -58,6 +76,10 @@ const Login: FC = () => {
           </button>
         </div>
       </div>
+      {isError ? (
+        <ErrorModal message={errorMessage} toggleModal={toggleModal} />
+      ) : null}
+      {isLoading ? <LoadingScreen /> : null}
     </div>
   );
 };

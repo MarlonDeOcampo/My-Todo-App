@@ -1,7 +1,6 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import AddEditModal from "../componets/modals/add-edit-modal";
 import Table from "../componets/reusable/forms/table";
-import useGenerateId from "../hooks/useGenerateIdHook";
 import { ITodo } from "../models/global.model";
 
 const Home: FC = () => {
@@ -15,8 +14,6 @@ const Home: FC = () => {
     setTodos(arr);
   }
 
-  useEffect(() => {}, []);
-
   return (
     <div className="pt-20">
       <div className="flex justify-between">
@@ -28,6 +25,7 @@ const Home: FC = () => {
           Add Todo
         </button>
       </div>
+      <div className="mt-4 border-b-2" />
       <Table
         todos={todos}
         setTodos={setTodos}

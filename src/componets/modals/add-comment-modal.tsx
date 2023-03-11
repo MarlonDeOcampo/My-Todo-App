@@ -7,7 +7,6 @@ import ExitIcon from "../svg/exit.icon";
 
 const AddCommentModal: FC<IAddComment> = ({
   index,
-  todoItem,
   setIsAddComment,
   setTodos,
   todos,
@@ -19,7 +18,7 @@ const AddCommentModal: FC<IAddComment> = ({
 
   function handleApply() {
     if (title !== "Edit Comment") {
-      const newComments = [...todoItem.comments];
+      const newComments = todos[index].comments;
       newComments.push({
         id: useGenerateId(),
         comment: comment,
@@ -35,11 +34,13 @@ const AddCommentModal: FC<IAddComment> = ({
       setTodos(newTodos);
     } else {
       const newTodo = todos.map((todo) => {
+        console.log(todo.id !== selectedId);
         if (selectedComment?.id) {
           if (todo.id !== selectedId) return todo;
           return {
             ...todo,
             comments: todo.comments.map((item) => {
+              console.log(item.id);
               if (item.id !== selectedComment.id) return item;
               return {
                 ...item,
@@ -69,7 +70,7 @@ const AddCommentModal: FC<IAddComment> = ({
         id="staticModal"
         className="fixed top-0 left-0 right-0 z-40 md:inset-0 h-modal md:h-full w-full flex items-center justify-center"
       >
-        <div className="bg-white mt-2 rounded w-[50vw] rounded-md">
+        <div className="bg-white mt-2 rounded w-[90vw] sm:w-[50vw] rounded-md">
           <div className="bg-tertiary h-10 flex justify-between items-center px-4 rounded-tl-md rounded-tr-md">
             <span className="text-white font-semibold">
               <p>Add Comment</p>
@@ -123,7 +124,7 @@ const AddCommentModal: FC<IAddComment> = ({
           </div>
         </div>
       </div>
-      <div className="fixed top-0 left-0 right-0 bottom-0 bg-smoked" />
+      <div className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-30" />
     </>,
     document.body
   );

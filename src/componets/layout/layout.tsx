@@ -1,19 +1,16 @@
+import { Outlet } from "react-router-dom";
 import Footer from "./footer";
 import Navbar from "./navbar";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-const Layout: React.FC<Props> = ({ children }) => {
+const Layout: React.FC = () => {
   return (
-    <>
+    <div>
       <Navbar />
-      <main className="px-20 bg-[#F5F5F5] h-[92vh] overflow-none">
-        {children}
+      <main className="px-4 sm:px-20 md:px-10 bg-[#F5F5F5] h-[92vh] overflow-none">
+        <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 export default Layout;

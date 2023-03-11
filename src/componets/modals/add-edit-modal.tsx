@@ -66,9 +66,9 @@ const AddEditModal: FC<IAddModal> = ({
     <>
       <div
         id="staticModal"
-        className="fixed top-0 left-0 right-0 z-40 md:inset-0 h-modal md:h-full w-full flex items-center justify-center"
+        className="fixed bottom-0 top-0 left-0 right-0 z-40 md:inset-0 m-auto h-modal md:h-full w-full flex items-center justify-center"
       >
-        <div className="bg-white mt-2 rounded w-[50vw] rounded-md">
+        <div className="bg-white mt-2 rounded w-[85vw] sm:w-[50vw] rounded-md">
           <div className="bg-tertiary h-10 flex justify-between items-center px-4 rounded-tl-md rounded-tr-md">
             <span className="text-white font-semibold">{title}</span>
             <span
@@ -133,7 +133,7 @@ const AddEditModal: FC<IAddModal> = ({
           </div>
         </div>
       </div>
-      <div className="fixed top-0 left-0 right-0 bottom-0 bg-smoked" />
+      <div className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-30" />
     </>,
     document.body
   );

@@ -9,6 +9,7 @@ export type IUser = {
   password: string;
   userId: string;
   userName: string;
+  message?: any;
 };
 
 export function validateData(
@@ -21,7 +22,10 @@ export function validateData(
   if (user.password === payload.password) {
     return user;
   } else {
-    throw new Error("Invalid UserName or password");
+    return {
+      error: null,
+      message: "Invalid Username or password",
+    };
   }
 }
 
@@ -37,12 +41,19 @@ export const userLogin = async (payload: {
     const user = response.data.filter(
       (user: IUser) => user.userName === payload.userName
     );
-    if (user) {
+
+    if (user.length > 0) {
       return validateData(user[0], payload);
     } else {
-      throw new Error("Invalid UserName or password");
+      return {
+        error: null,
+        message: "No User Found!",
+      };
     }
-  } catch (err) {
-    throw new Error("Something went wrong!");
+  } catch (err: any) {
+    return {
+      error: err,
+      message: "Something went wrong!",
+    };
   }
 };

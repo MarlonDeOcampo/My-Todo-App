@@ -1,6 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import Layout from "./componets/layout/layout";
 
 // lazy
 const Home = lazy(() => import("./pages/home.page"));
@@ -11,7 +12,9 @@ function App() {
     <>
       <Suspense fallback={<div>loading ...</div>}>
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/main" element={<Layout />}>
+            <Route index element={<Home />} />
+          </Route>
           <Route path="/" element={<Login />} />
         </Routes>
       </Suspense>

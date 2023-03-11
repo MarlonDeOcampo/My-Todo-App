@@ -16,64 +16,75 @@ const Table: FC<ITable> = ({
   const menuRef = useRef<HTMLInputElement>(null);
   const [isAddComment, setIsAddComment] = useState(false);
   const [isEditComment, setIsEditComment] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [selectedComment, setSelectedComment] = useState({
     comment: "",
     id: "",
   });
   const [selectedId, setSelectedId] = useState("");
   function kebabClick(index: number) {
-    const todoList: ITodo[] = todos.map((todo, i) => {
-      setSelectedId(todos[index].id);
-      if (i === index) {
+    setTodos((prev: ITodo[]) => [
+      ...prev.map((todo, i) => {
+        setSelectedId(todos[index].id);
+        if (i === index) {
+          return {
+            ...todo,
+            isSelected: !todo.isSelected,
+          };
+        }
         return {
           ...todo,
-          isSelected: !todo.isSelected,
+          isSelected: false,
         };
-      }
-      return {
-        ...todo,
-        isSelected: false,
-      };
-    });
-    setTodos(todoList);
+      }),
+    ]);
   }
 
   function kebabExpand(index: number) {
-    setSelectedId(todos[index].id);
-    const todoList: ITodo[] = todos.map((todo, i) => {
-      if (i === index) {
+    setTodos((prev: ITodo[]) => [
+      ...prev.map((todo, i) => {
+        if (i === index) {
+          return {
+            ...todo,
+            isExpanded: !todo.isExpanded,
+          };
+        }
         return {
           ...todo,
-          isExpanded: !todo.isExpanded,
+          isSelected: false,
         };
-      }
-      return {
-        ...todo,
-        isExpanded: false,
-      };
-    });
-    setTodos(todoList);
+      }),
+    ]);
   }
 
   function deleteComment(id: string, i: number) {
+    console.log(id);
     const comments = todos[i].comments.filter((comment) => comment.id !== id);
-    // const newTodo = { ...todos[i], comments };
-    const newTodos = todos.map((todo) => {
-      if (todo.id === todos[i].id) {
-        return {
-          ...todo,
-          comments: comments,
-        };
-      } else {
-        return todo;
-      }
-    });
-    setTodos(newTodos);
+    setTodos((prev: ITodo[]) => [
+      ...prev.map((todo) => {
+        if (todo.id === todos[i].id) {
+          return {
+            ...todo,
+            comments: comments,
+          };
+        } else {
+          return todo;
+        }
+      }),
+    ]);
   }
 
-  function handleCommentEdit(elem: IComment) {
+  function handleCommentEdit(elem: IComment, index: number) {
+    setSelectedIndex(index);
+    setSelectedId(todos[index].id);
     setSelectedComment(elem);
     setIsEditComment((prev) => !prev);
+  }
+
+  function addComments(index: number) {
+    setSelectedIndex(index);
+    console.log(index);
+    setIsAddComment((prev) => !prev);
   }
 
   useEffect(() => {
@@ -121,17 +132,14 @@ const Table: FC<ITable> = ({
         <tbody>
           {todos.map((item, i) => (
             <Fragment key={item.id}>
-              <tr className="h-10 border-b">
-                <td
-                  colSpan={3}
-                  className="border-t border-b pl-4 text-dark font-semibold"
-                >
+              <tr className="h-10 bg-white text-dark border-t border-b">
+                <td colSpan={3} className=" pl-4 font-semibold">
                   {item.todoName}
                 </td>
-                <td colSpan={8} className="pl-4 text-dark font-semibold">
+                <td colSpan={8} className="pl-4 font-semibold">
                   {item.todoDescription}
                 </td>
-                <td colSpan={1} className="px-2 w-24 text-center relative">
+                <td colSpan={1} className="px-2 w-24 text-center relative ">
                   <div className="flex justify-center gap-4">
                     <button
                       type="button"
@@ -178,12 +186,14 @@ const Table: FC<ITable> = ({
               </tr>
               {item.isExpanded ? (
                 <tr className="bg-white" key={item.id}>
-                  <td colSpan={12} className=" h-full px-10 pb-4">
-                    <div className="flex justify-between h-14 items-center text-sm">
+                  <td colSpan={12} className="px-10 ">
+                    <div
+                      className={`flex justify-between h-14 items-center text-sm bg-white`}
+                    >
                       <p className="font-semibold">Comments</p>
                       <button
                         className="text-tertiary font-semibold  flex items-center gap-2"
-                        onClick={() => setIsAddComment((prev) => !prev)}
+                        onClick={() => addComments(i)}
                       >
                         <PlusIcon color="#002eac" height="14px" /> Add Comments
                       </button>
@@ -195,7 +205,12 @@ const Table: FC<ITable> = ({
                     >
                       <>
                         {item.comments.map((elem, ind) => (
-                          <div key={elem.id}>
+                          <div
+                            key={elem.id}
+                            className={`${
+                              item.comments.length === ind + 1 ? "mb-2" : ""
+                            }`}
+                          >
                             <hr />
                             <div className="flex justify-between items-center">
                               <li className="ml-4 mt-2">{elem.comment}</li>
@@ -208,7 +223,7 @@ const Table: FC<ITable> = ({
                                 </button>
                                 <button
                                   className="text-sm text-tertiary hover:text-black"
-                                  onClick={() => handleCommentEdit(elem)}
+                                  onClick={() => handleCommentEdit(elem, i)}
                                 >
                                   edit
                                 </button>
@@ -218,7 +233,7 @@ const Table: FC<ITable> = ({
                               <AddCommentModal
                                 title="Edit Comment"
                                 selectedComment={selectedComment}
-                                index={i}
+                                index={selectedIndex}
                                 todoItem={item}
                                 setIsAddComment={setIsEditComment}
                                 isAddComment={isEditComment}
@@ -229,19 +244,20 @@ const Table: FC<ITable> = ({
                             ) : null}
                           </div>
                         ))}
+                        {isAddComment ? (
+                          <AddCommentModal
+                            title="add Comment"
+                            index={selectedIndex}
+                            todoItem={item}
+                            setIsAddComment={setIsAddComment}
+                            isAddComment={isAddComment}
+                            setTodos={setTodos}
+                            todos={todos}
+                            selectedId={selectedId}
+                          />
+                        ) : null}
                       </>
                     </ol>
-                    {isAddComment ? (
-                      <AddCommentModal
-                        index={i}
-                        todoItem={item}
-                        setIsAddComment={setIsAddComment}
-                        isAddComment={isAddComment}
-                        setTodos={setTodos}
-                        todos={todos}
-                        selectedId={selectedId}
-                      />
-                    ) : null}
                   </td>
                 </tr>
               ) : null}

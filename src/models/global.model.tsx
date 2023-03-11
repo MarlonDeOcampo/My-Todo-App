@@ -28,7 +28,7 @@ export type ITextArea = {
 export type ITable = {
   todos: ITodo[];
   isEditModal: boolean;
-  setTodos: (val: any) => void;
+  setTodos: any;
   setIsEditModal: (val: any) => void;
   onDelete: (index: string) => void;
 };
