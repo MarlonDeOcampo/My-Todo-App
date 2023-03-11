@@ -69,3 +69,20 @@ export type IFloatingLabel = {
   ref: React.ForwardedRef<HTMLInputElement>;
   defaultValue?: string;
 };
+
+export type IWarningModal = {
+  toggleWarningModal: () => void;
+  onConfirm?: () => void;
+  message: string;
+  title: string;
+  image?: string;
+};
+
+export type IErrorModal = {
+  toggleModal?: () => void;
+  onSave?: () => void;
+  onCancel?: () => void;
+  message?: string;
+  title?: string;
+  image?: string;
+};

@@ -1,13 +1,5 @@
 import { createPortal } from "react-dom";
-
-interface Props {
-  toggleModal?: () => void;
-  onSave?: () => void;
-  onCancel?: () => void;
-  message?: string;
-  title?: string;
-  image?: string;
-}
+import { IErrorModal } from "../../models/global.model";
 
 /**
  *
@@ -31,7 +23,7 @@ const ErrorModal = ({
   title = "Error!",
   image = "/error.png",
   toggleModal,
-}: Props) => {
+}: IErrorModal) => {
   return createPortal(
     <>
       <div
