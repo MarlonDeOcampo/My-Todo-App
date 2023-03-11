@@ -36,7 +36,7 @@ const WarningModal = ({
         data-modal-backdrop="static"
         tabIndex={-1}
         aria-hidden="true"
-        className="fixed top-0 left-0 right-0 z-40 md:inset-0 h-modal md:h-full w-full flex items-center justify-center"
+        className="fixed bottom-0 top-0 left-0 right-0 m-auto z-40 md:inset-0 h-modal md:h-full w-full flex items-center justify-center"
       >
         <div className="bg-white mt-2 p-4 rounded w-[24rem]">
           <div

@@ -37,9 +37,11 @@ const Login: FC = () => {
   }
 
   return (
-    <div className="flex flex-col gap-10 justify-center items-center w-full z-10 h-[100vh] py-10 bg-secondary">
-      <div className="text-white text-[4rem] font-bold">My Todo App</div>
-      <div className="bg-red  w-[30rem] bg-white px-10 py-14 rounded-2xl flex flex-col gap-y-10">
+    <div className="flex flex-col gap-10 justify-center items-center w-full z-10 h-screen py-10 bg-secondary">
+      <div className="text-white text-[3rem] sm:text-[4rem] font-bold">
+        My Todo App
+      </div>
+      <div className="w-[22rem] sm:w-[30rem] bg-white px-10 py-14 rounded-2xl flex flex-col gap-y-10">
         <div className="text-center text-3xl font-bold text-tertiary">
           <p>LOGIN</p>
         </div>
