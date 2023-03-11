@@ -130,7 +130,9 @@ const Table: FC<ITable> = ({
               <th colSpan={2} className="text-start pl-4 whitespace-nowrap">
                 Date Added
               </th>
-              <th colSpan={1}>Action</th>
+              <th colSpan={1} className="px-4">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
