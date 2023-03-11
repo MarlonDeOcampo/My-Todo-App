@@ -29,7 +29,6 @@ const AddEditModal: FC<IAddModal> = ({
       };
       setTodos([...todos, obj]);
     } else {
-      console.log("11");
       setTodos((prev: ITodo[]) => [
         ...prev.map((item) => {
           if (item.id === selectedId) {

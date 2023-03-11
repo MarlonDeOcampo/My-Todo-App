@@ -58,7 +58,6 @@ const Table: FC<ITable> = ({
   }
 
   function deleteComment(id: string, i: number) {
-    console.log(id);
     const comments = todos[i].comments.filter((comment) => comment.id !== id);
     setTodos((prev: ITodo[]) => [
       ...prev.map((todo) => {
@@ -83,12 +82,10 @@ const Table: FC<ITable> = ({
 
   function addComments(index: number) {
     setSelectedIndex(index);
-    console.log(index);
     setIsAddComment((prev) => !prev);
   }
 
   useEffect(() => {
-    console.log(todos);
     let handleMenu = (e: any) => {
       if (menuRef.current !== null) {
         if (!menuRef.current.contains(e.target)) {

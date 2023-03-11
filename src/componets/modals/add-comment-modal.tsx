@@ -34,13 +34,11 @@ const AddCommentModal: FC<IAddComment> = ({
       setTodos(newTodos);
     } else {
       const newTodo = todos.map((todo) => {
-        console.log(todo.id !== selectedId);
         if (selectedComment?.id) {
           if (todo.id !== selectedId) return todo;
           return {
             ...todo,
             comments: todo.comments.map((item) => {
-              console.log(item.id);
               if (item.id !== selectedComment.id) return item;
               return {
                 ...item,
