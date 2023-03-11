@@ -113,175 +113,195 @@ const Table: FC<ITable> = ({
   }, [selectedId]);
 
   return (
-    <div className="w-full border mt-10">
-      <table className="w-full">
-        <thead className="bg-secondary text-white">
-          <tr className="h-12 border-b ">
-            <th colSpan={3} className="text-start pl-4">
-              Todo
-            </th>
-            <th colSpan={8} className="text-start pl-4">
-              Description
-            </th>
-            <th colSpan={1}>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {todos.map((item, i) => (
-            <Fragment key={item.id}>
-              <tr className="h-10 bg-white text-dark border-t border-b">
-                <td colSpan={3} className=" pl-4 font-semibold">
-                  {item.todoName}
-                </td>
-                <td colSpan={8} className="pl-4 font-semibold">
-                  {item.todoDescription}
-                </td>
-                <td colSpan={1} className="px-2 w-24 text-center relative ">
-                  <div className="flex justify-center gap-4">
-                    <button
-                      type="button"
-                      className="p-2"
-                      onClick={() => kebabExpand(i)}
-                    >
-                      <span
-                        className={`transition ease-in-out duration-500 rotate-180 ${
-                          item.isExpanded ? "rotate-180" : ""
-                        }`}
-                      >
-                        <DropDownIcon />
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      className="p-2"
-                      onClick={() => kebabClick(i)}
-                    >
-                      <KebabImage width="5px" />
-                    </button>
-                  </div>
-                  {item.isSelected ? (
-                    <div
-                      className="bg-white absolute top-0 right-10 flex flex-col rounded-sm text-sm shadow-xl z-10 "
-                      ref={menuRef}
-                    >
+    <>
+      <div className="w-full border mt-10 overflow-auto">
+        <table className="w-full ">
+          <thead className="bg-secondary text-white">
+            <tr className="h-12 border-b ">
+              <th colSpan={1} className="text-start pl-4 w-20">
+                No
+              </th>
+              <th colSpan={3} className="text-start pl-4">
+                Todo
+              </th>
+              <th colSpan={6} className="text-start pl-4">
+                Description
+              </th>
+              <th colSpan={2} className="text-start pl-4 whitespace-nowrap">
+                Date Added
+              </th>
+              <th colSpan={1}>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {todos.map((item, i) => (
+              <Fragment key={item.id}>
+                <tr className="h-14 bg-white text-dark border-t border-b">
+                  <td colSpan={1} className=" pl-4 font-semibold w-20">
+                    {i + 1}
+                  </td>
+                  <td colSpan={3} className=" pl-4 font-semibold">
+                    {item.todoName}
+                  </td>
+                  <td colSpan={6} className="pl-4 font-semibold">
+                    {item.todoDescription}
+                  </td>
+                  <td
+                    colSpan={2}
+                    className="pl-4 font-semibold whitespace-nowrap"
+                  >
+                    {new Date().toDateString()}
+                  </td>
+                  <td colSpan={1} className="px-2 w-24 text-center relative ">
+                    <div className="flex justify-center gap-4">
                       <button
-                        className="px-4 py-1 font-semibold rounded-tl-sm rounded-tr-sm hover:bg-tertiary hover:text-white"
-                        onClick={() => setIsEditModal((prev: boolean) => !prev)}
+                        type="button"
+                        className="p-2"
+                        onClick={() => kebabExpand(i)}
                       >
-                        Edit
+                        <span
+                          className={`transition ease-in-out duration-500 rotate-180 ${
+                            item.isExpanded ? "rotate-180" : ""
+                          }`}
+                        >
+                          <DropDownIcon />
+                        </span>
                       </button>
-                      <hr />
                       <button
-                        className="px-4 py-1 font-semibold rounded-bl-sm rounded-br-sm hover:bg-tertiary hover:text-white"
-                        onClick={() => onDelete(item.id)}
+                        type="button"
+                        className="p-2"
+                        onClick={() => kebabClick(i)}
                       >
-                        Delete
+                        <KebabImage width="5px" />
                       </button>
                     </div>
-                  ) : null}
-                </td>
-              </tr>
-              {item.isExpanded ? (
-                <tr className="bg-white" key={item.id}>
-                  <td colSpan={12} className="px-10 ">
-                    <div
-                      className={`flex justify-between h-14 items-center text-sm bg-white`}
-                    >
-                      <p className="font-semibold">Comments</p>
-                      <button
-                        className="text-tertiary font-semibold  flex items-center gap-2"
-                        onClick={() => addComments(i)}
+                    {item.isSelected ? (
+                      <div
+                        className="bg-white absolute top-0 right-10 flex flex-col rounded-sm text-sm shadow-xl z-10 "
+                        ref={menuRef}
                       >
-                        <PlusIcon color="#002eac" height="14px" /> Add Comments
-                      </button>
-                    </div>
-
-                    <ol
-                      style={{ listStyleType: "decimal" }}
-                      className="flex flex-col gap-2"
-                    >
-                      <>
-                        {item.comments.map((elem, ind) => (
-                          <div
-                            key={elem.id}
-                            className={`${
-                              item.comments.length === ind + 1 ? "mb-2" : ""
-                            }`}
-                          >
-                            <hr />
-                            <div className="flex justify-between items-center">
-                              <li className="ml-4 mt-2">{elem.comment}</li>
-                              <div className="flex pr-4 gap-4 font-semibold pt-1">
-                                <button
-                                  className="text-sm text-red-500 hover:text-black"
-                                  onClick={() => deleteComment(elem.id, i)}
-                                >
-                                  delete
-                                </button>
-                                <button
-                                  className="text-sm text-tertiary hover:text-black"
-                                  onClick={() => handleCommentEdit(elem, i)}
-                                >
-                                  edit
-                                </button>
-                              </div>
-                            </div>
-                            {isEditComment ? (
-                              <AddCommentModal
-                                title="Edit Comment"
-                                selectedComment={selectedComment}
-                                index={selectedIndex}
-                                todoItem={item}
-                                setIsAddComment={setIsEditComment}
-                                isAddComment={isEditComment}
-                                setTodos={setTodos}
-                                todos={todos}
-                                selectedId={selectedId}
-                              />
-                            ) : null}
-                          </div>
-                        ))}
-                        {isAddComment ? (
-                          <AddCommentModal
-                            title="add Comment"
-                            index={selectedIndex}
-                            todoItem={item}
-                            setIsAddComment={setIsAddComment}
-                            isAddComment={isAddComment}
-                            setTodos={setTodos}
-                            todos={todos}
-                            selectedId={selectedId}
-                          />
-                        ) : null}
-                      </>
-                    </ol>
+                        <button
+                          className="px-4 py-1 font-semibold rounded-tl-sm rounded-tr-sm hover:bg-tertiary hover:text-white"
+                          onClick={() =>
+                            setIsEditModal((prev: boolean) => !prev)
+                          }
+                        >
+                          Edit
+                        </button>
+                        <hr />
+                        <button
+                          className="px-4 py-1 font-semibold rounded-bl-sm rounded-br-sm hover:bg-tertiary hover:text-white"
+                          onClick={() => onDelete(item.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ) : null}
                   </td>
                 </tr>
-              ) : null}
-              {isEditModal ? (
-                <AddEditModal
-                  title="Edit Todo"
-                  setIsEditModal={setIsEditModal}
-                  setTodos={setTodos}
-                  todos={todos}
-                  selectedId={selectedId}
-                />
-              ) : null}
-            </Fragment>
-          ))}
-          {todos.length === 0 ? (
-            <tr className="h-10 border-b">
-              <td
-                colSpan={12}
-                className="border-t border-b px-2 text-dark font-semibold h-[20rem] text-center"
-              >
-                <p>No list of todos available</p>
-              </td>
-            </tr>
-          ) : null}
-        </tbody>
-      </table>
-    </div>
+                {item.isExpanded ? (
+                  <tr className="bg-[#F0F8FF]" key={item.id}>
+                    <td colSpan={13} className="px-10 ">
+                      <div
+                        className={`flex justify-between h-14 items-center text-sm`}
+                      >
+                        <p className="font-semibold">Comments</p>
+                        <button
+                          className="text-tertiary font-semibold  flex items-center gap-2"
+                          onClick={() => addComments(i)}
+                        >
+                          <PlusIcon color="#002eac" height="14px" /> Add
+                          Comments
+                        </button>
+                      </div>
+
+                      <ol
+                        style={{ listStyleType: "decimal" }}
+                        className="flex flex-col gap-2"
+                      >
+                        <>
+                          {item.comments.map((elem, ind) => (
+                            <div
+                              key={elem.id}
+                              className={`${
+                                item.comments.length === ind + 1 ? "mb-2" : ""
+                              }`}
+                            >
+                              <hr />
+                              <div className="flex justify-between items-center gap-10">
+                                <li className="ml-4 mt-2">{elem.comment}</li>
+                                <div className="flex pr-4 gap-4 font-semibold pt-1">
+                                  <button
+                                    className="text-sm text-red-500 hover:text-black"
+                                    onClick={() => deleteComment(elem.id, i)}
+                                  >
+                                    delete
+                                  </button>
+                                  <button
+                                    className="text-sm text-tertiary hover:text-black"
+                                    onClick={() => handleCommentEdit(elem, i)}
+                                  >
+                                    edit
+                                  </button>
+                                </div>
+                              </div>
+                              {isEditComment ? (
+                                <AddCommentModal
+                                  title="Edit Comment"
+                                  selectedComment={selectedComment}
+                                  index={selectedIndex}
+                                  todoItem={item}
+                                  setIsAddComment={setIsEditComment}
+                                  isAddComment={isEditComment}
+                                  setTodos={setTodos}
+                                  todos={todos}
+                                  selectedId={selectedId}
+                                />
+                              ) : null}
+                            </div>
+                          ))}
+                          {isAddComment ? (
+                            <AddCommentModal
+                              title="add Comment"
+                              index={selectedIndex}
+                              todoItem={item}
+                              setIsAddComment={setIsAddComment}
+                              isAddComment={isAddComment}
+                              setTodos={setTodos}
+                              todos={todos}
+                              selectedId={selectedId}
+                            />
+                          ) : null}
+                        </>
+                      </ol>
+                    </td>
+                  </tr>
+                ) : null}
+                {isEditModal ? (
+                  <AddEditModal
+                    title="Edit Todo"
+                    setIsEditModal={setIsEditModal}
+                    setTodos={setTodos}
+                    todos={todos}
+                    selectedId={selectedId}
+                  />
+                ) : null}
+              </Fragment>
+            ))}
+            {todos.length === 0 ? (
+              <tr className="h-10 border-b">
+                <td
+                  colSpan={13}
+                  className="border-t border-b px-2 text-dark font-semibold h-[20rem] text-center"
+                >
+                  <p>No list of todos available</p>
+                </td>
+              </tr>
+            ) : null}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 
