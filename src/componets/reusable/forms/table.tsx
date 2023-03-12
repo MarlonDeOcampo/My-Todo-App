@@ -81,8 +81,9 @@ const Table: FC<ITable> = ({
   }
 
   function addComments(index: number) {
+    console.log(index);
     setSelectedIndex(index);
-    setIsAddComment((prev) => !prev);
+    setIsAddComment(true);
   }
 
   useEffect(() => {
@@ -203,80 +204,106 @@ const Table: FC<ITable> = ({
                 </tr>
                 {item.isExpanded ? (
                   <tr className="bg-[#F0F8FF]" key={item.id}>
-                    <td colSpan={13} className="px-10 ">
-                      <div
-                        className={`flex justify-between h-14 items-center text-sm`}
-                      >
-                        <p className="font-semibold">Comments</p>
-                        <button
-                          className="text-tertiary font-semibold  flex items-center gap-2"
-                          onClick={() => addComments(i)}
+                    {item.comments.length > 0 ? (
+                      <td colSpan={13} className="px-10 ">
+                        <div
+                          className={`flex justify-between h-14 items-center text-sm`}
                         >
-                          <PlusIcon color="#002eac" height="14px" /> Add
-                          Comments
-                        </button>
-                      </div>
+                          <p className="font-semibold">Comments</p>
+                          <button
+                            className="text-tertiary font-semibold  flex items-center gap-2"
+                            onClick={() => addComments(i)}
+                          >
+                            <PlusIcon color="#002eac" height="14px" /> Add
+                            Comments
+                          </button>
+                        </div>
 
-                      <ol
-                        style={{ listStyleType: "decimal" }}
-                        className="flex flex-col gap-2"
-                      >
-                        <>
-                          {item.comments.map((elem, ind) => (
-                            <div
-                              key={elem.id}
-                              className={`${
-                                item.comments.length === ind + 1 ? "mb-2" : ""
-                              }`}
-                            >
-                              <hr />
-                              <div className="flex justify-between items-center gap-10">
-                                <li className="ml-4 mt-2">{elem.comment}</li>
-                                <div className="flex pr-4 gap-4 font-semibold pt-1">
-                                  <button
-                                    className="text-sm text-red-500 hover:text-black"
-                                    onClick={() => deleteComment(elem.id, i)}
-                                  >
-                                    delete
-                                  </button>
-                                  <button
-                                    className="text-sm text-tertiary hover:text-black"
-                                    onClick={() => handleCommentEdit(elem, i)}
-                                  >
-                                    edit
-                                  </button>
+                        <ol
+                          style={{ listStyleType: "decimal" }}
+                          className="flex flex-col gap-2"
+                        >
+                          <div>
+                            {item.comments.map((elem, ind) => (
+                              <div key={elem.id} className={`mb-2`}>
+                                <hr />
+                                <div className="flex justify-between items-center gap-10">
+                                  <li className="ml-4 mt-2">{elem.comment}</li>
+                                  <div className="flex pr-4 gap-4 font-semibold pt-1">
+                                    <button
+                                      className="text-sm text-red-500 hover:text-black"
+                                      onClick={() => deleteComment(elem.id, i)}
+                                    >
+                                      delete
+                                    </button>
+                                    <button
+                                      className="text-sm text-tertiary hover:text-black"
+                                      onClick={() => handleCommentEdit(elem, i)}
+                                    >
+                                      edit
+                                    </button>
+                                  </div>
                                 </div>
+                                {isEditComment ? (
+                                  <AddCommentModal
+                                    title="Edit Comment"
+                                    selectedComment={selectedComment}
+                                    index={selectedIndex}
+                                    todoItem={item}
+                                    setIsAddComment={setIsEditComment}
+                                    isAddComment={isEditComment}
+                                    setTodos={setTodos}
+                                    todos={todos}
+                                    selectedId={selectedId}
+                                  />
+                                ) : null}
                               </div>
-                              {isEditComment ? (
-                                <AddCommentModal
-                                  title="Edit Comment"
-                                  selectedComment={selectedComment}
-                                  index={selectedIndex}
-                                  todoItem={item}
-                                  setIsAddComment={setIsEditComment}
-                                  isAddComment={isEditComment}
-                                  setTodos={setTodos}
-                                  todos={todos}
-                                  selectedId={selectedId}
-                                />
-                              ) : null}
-                            </div>
-                          ))}
-                          {isAddComment ? (
-                            <AddCommentModal
-                              title="add Comment"
-                              index={selectedIndex}
-                              todoItem={item}
-                              setIsAddComment={setIsAddComment}
-                              isAddComment={isAddComment}
-                              setTodos={setTodos}
-                              todos={todos}
-                              selectedId={selectedId}
-                            />
-                          ) : null}
-                        </>
-                      </ol>
-                    </td>
+                            ))}
+                            {isAddComment ? (
+                              <AddCommentModal
+                                title="Add Comment"
+                                index={selectedIndex}
+                                todoItem={item}
+                                setIsAddComment={setIsAddComment}
+                                isAddComment={isAddComment}
+                                setTodos={setTodos}
+                                todos={todos}
+                                selectedId={selectedId}
+                              />
+                            ) : null}
+                          </div>
+                        </ol>
+                      </td>
+                    ) : (
+                      <>
+                        <td className="p-4" colSpan={13}>
+                          <div className=" flex flex-col justify-center items-center border h-40 gap-4 ">
+                            <p className="text-dark font-semibold">
+                              No Commets added yet
+                            </p>
+                            <button
+                              className="text-tertiary font-semibold  flex items-center gap-2"
+                              onClick={() => addComments(i)}
+                            >
+                              <PlusIcon color="#002eac" height="14px" /> Add
+                              Comments
+                            </button>
+                          </div>
+                        </td>
+                        {isAddComment ? (
+                          <AddCommentModal
+                            title="Add Comment"
+                            index={selectedIndex}
+                            todoItem={item}
+                            setIsAddComment={setIsAddComment}
+                            isAddComment={isAddComment}
+                            setTodos={setTodos}
+                            todos={todos}
+                            selectedId={selectedId}
+                          />
+                        ) : null}
+                      </>
+                    )}
                   </tr>
                 ) : null}
                 {isEditModal ? (

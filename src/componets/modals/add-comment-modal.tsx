@@ -71,7 +71,7 @@ const AddCommentModal: FC<IAddComment> = ({
         <div className="bg-white mt-2 rounded w-[90vw] sm:w-[50vw] rounded-md">
           <div className="bg-tertiary h-10 flex justify-between items-center px-4 rounded-tl-md rounded-tr-md">
             <span className="text-white font-semibold">
-              <p>Add Comment</p>
+              <p>{title}</p>
             </span>
             <span
               onClick={() => {
@@ -122,7 +122,7 @@ const AddCommentModal: FC<IAddComment> = ({
           </div>
         </div>
       </div>
-      <div className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-30" />
+      <div className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-5" />
     </>,
     document.body
   );
