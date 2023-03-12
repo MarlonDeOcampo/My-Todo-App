@@ -5,6 +5,7 @@ import { userLogin } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import ErrorModal from "../componets/modals/Error-modal";
 import LoadingScreen from "../componets/loadingScreen";
+import PasswordLogo from "../componets/svg/password-logo";
 
 const Login: FC = () => {
   const userNameRef = useRef<HTMLInputElement>(null);
@@ -64,7 +65,7 @@ const Login: FC = () => {
             ref={passwordRef}
           >
             <div className="flex justify-center items-center ml-2 gap-x-3">
-              <UsernameLogo width="14px" height="14px" color="#000fff" />
+              <PasswordLogo width="14px" height="14px" color="#000fff" />
               Password
             </div>
           </FloatingField>
