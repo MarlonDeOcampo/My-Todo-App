@@ -1,9 +1,5 @@
 pipeline {
     agent any
-    environment {
-        DOCKER_HOST = 'tcp://192.168.1.5:4243'
-        WORKSPACE_DIR = '/home/jenkins/workspace' 
-    }
     stages {
         stage('Clean Workspace') {
             steps {
