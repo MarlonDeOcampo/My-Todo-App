@@ -5,6 +5,7 @@ pipeline {
             label 'docker-agent' // Match the label from your Docker Cloud setup
             registryUrl 'https://index.docker.io/v1/' // Docker registry URL (e.g., Docker Hub)
             registryCredentialsId 'a5c3815e-5cd4-4edd-b1ff-cb23667a6aa9' // Replace with the credentials ID from Jenkins
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
     options {
