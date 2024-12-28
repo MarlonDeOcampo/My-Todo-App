@@ -1,18 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'alhon05/jenkins-agent:v1' // Replace with the Docker image used in your Docker Cloud configuration
-            label 'docker-agent' // Match the label from your Docker Cloud setup
-            registryUrl 'https://index.docker.io/v1/' // Docker registry URL (e.g., Docker Hub)
-            registryCredentialsId 'a5c3815e-5cd4-4edd-b1ff-cb23667a6aa9' // Replace with the credentials ID from Jenkins
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
-    options {
-        skipDefaultCheckout(true)
-        buildDiscarder(logRotator(numToKeepStr: '10'))
-        timeout(time: 30, unit: 'MINUTES')
-    }
+    agent any
     environment {
         DOCKER_HOST = 'tcp://192.168.1.5:4243'
         WORKSPACE_DIR = '/home/jenkins/workspace' 
