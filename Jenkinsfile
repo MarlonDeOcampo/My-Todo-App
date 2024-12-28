@@ -5,7 +5,6 @@ pipeline {
             label 'docker-agent' // Match the label from your Docker Cloud setup
             registryUrl 'https://index.docker.io/v1/' // Docker registry URL (e.g., Docker Hub)
             registryCredentialsId 'a5c3815e-5cd4-4edd-b1ff-cb23667a6aa9' // Replace with the credentials ID from Jenkins
-            args '--host=tcp://192.168.1.5:4243'
         }
     }
     options {
@@ -14,6 +13,7 @@ pipeline {
         timeout(time: 30, unit: 'MINUTES')
     }
     environment {
+        DOCKER_HOST = 'tcp://192.168.1.5:4243'
         WORKSPACE_DIR = '/home/jenkins/workspace' 
     }
     stages {
@@ -37,7 +37,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'your-credentials-id') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'a5c3815e-5cd4-4edd-b1ff-cb23667a6aa9') {
                         sh 'docker push my-todo-app:latest'
                     }
                 }
