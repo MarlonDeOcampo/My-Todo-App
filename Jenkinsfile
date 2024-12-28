@@ -18,7 +18,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t my-todo-app:latest .
+                docker build -t alhon05/my-todo-app:${BUILD_NUMBER} .
                 '''
             }
         }
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'a5c3815e-5cd4-4edd-b1ff-cb23667a6aa9') {
-                        sh 'docker push my-todo-app:latest'
+                        sh 'docker push alhon05/my-todo-app:${BUILD_NUMBER}'
                     }
                 }
             }
