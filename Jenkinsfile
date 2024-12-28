@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'docker-agent' }
     environment {
         DOCKER_HOST = 'tcp://192.168.1.5:4243'
         WORKSPACE_DIR = '/home/jenkins/workspace' 
