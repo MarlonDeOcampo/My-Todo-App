@@ -4,6 +4,10 @@ pipeline {
         DOCKER_HOST = 'tcp://192.168.1.5:4243'
         WORKSPACE_DIR = '/home/jenkins/workspace' 
     }
+    parameters {
+        name: 'build options',
+        choices: 'checkout\nbuild\npush\ndeploy'
+    }
     stages {
         stage('Clean Workspace') {
             steps {
