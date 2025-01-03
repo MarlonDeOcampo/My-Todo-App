@@ -40,7 +40,7 @@ pipeline {
         stage('Deploy to Docker Swarm') {
             steps {
                 sh '''
-                ssh marlon@192.168.1.5 "docker stack deploy --compose-file /home/marlon/todostack.yml my-todo-app-stack"
+                  ssh -p 33063 marlon@192.168.1.5 "docker stack deploy --compose-file /home/marlon/todostack.yml my-todo-app-stack"
                 '''
             }
         }
