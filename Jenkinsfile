@@ -5,8 +5,10 @@ pipeline {
         WORKSPACE_DIR = '/home/jenkins/workspace' 
     }
     parameters {
-        name: 'build options',
-        choices: 'checkout\nbuild\npush\ndeploy'
+        choice(
+            name: 'build options',
+            choices: 'checkout\nbuild\npush\ndeploy'
+        ) 
     }
     stages {
         stage('Clean Workspace') {
