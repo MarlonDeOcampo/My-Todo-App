@@ -13,6 +13,7 @@ pipeline {
     stages {
         stage('Clean Workspace') {
             steps {
+                docker service ls
                 deleteDir() 
             }
         }
