@@ -10,6 +10,9 @@ pipeline {
             choices: 'checkout\nbuild\npush\ndeploy'
         ) 
     }
+    triggers {
+        pollSCM('* * * * *') 
+    }
     stages {
         stage('Clean Workspace') {
             steps {
@@ -33,8 +36,6 @@ pipeline {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'a5c3815e-5cd4-4edd-b1ff-cb23667a6aa9') {
                         sh 'docker push alhon05/my-todo-app:${BUILD_NUMBER}'
-                        sh 'docker tag alhon05/my-todo-app:${BUILD_NUMBER} alhon05/my-todo-app:latest'
-                        sh 'docker push alhon05/my-todo-app:latest'
                     }
                 }
             }
@@ -42,7 +43,7 @@ pipeline {
         stage('Deploy to Docker Swarm') {
             steps {
                 sh '''
-                sshpass -p 'kayle@zhane' ssh -p 33063 marlon@192.168.1.5 docker stack deploy --compose-file /home/marlon/todostack.yml my-todo
+                sshpass -p 'kayle@zhane' ssh -p 33063 marlon@192.168.1.5 docker stack deploy --compose-file /home/marlon/todostack.yml my-todo-app-stack
                 '''
             }
         }
