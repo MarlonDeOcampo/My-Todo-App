@@ -11,9 +11,6 @@ pipeline {
             description: 'Choose the agent label for the build'
         )
     }
-    triggers {
-        pollSCM('* * * * *') 
-    }
     stages {
         stage('Initialize') {
             agent { label params.agent_label } // Dynamically set agent label
