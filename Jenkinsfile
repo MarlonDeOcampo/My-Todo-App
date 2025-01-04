@@ -1,4 +1,5 @@
 pipeline {
+    agent { label "${params.agent_label }" }
     environment {
         DOCKER_HOST = 'tcp://192.168.1.5:4243'
         WORKSPACE_DIR = '/home/jenkins/workspace' 
@@ -6,12 +7,17 @@ pipeline {
     parameters {
         choice(
             name: 'agent_label',
-            choices: ['docker-agent','k8s-agent'],
+            choices: 'docker-agent\nk8s-agent\nlinux-agent',
             description: 'Choose the agent label for the build'
         )
     }
-    agent { label "${params.agent_label }" }
     stages {
+        stage('Initialize') {
+            agent { label params.agent_label } // Dynamically set agent label
+            steps {
+                echo "Running on agent: ${params.agent_label}"
+            }
+        }
         stage('Clean Workspace') {
             steps {
                 deleteDir() 
