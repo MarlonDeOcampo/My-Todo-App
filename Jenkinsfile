@@ -12,12 +12,6 @@ pipeline {
         )
     }
     stages {
-        stage('Initialize') {
-            agent { label params.agent_label } // Dynamically set agent label
-            steps {
-                echo "Running on agent: ${params.agent_label}"
-            }
-        }
         stage('Clean Workspace') {
             steps {
                 deleteDir() 
