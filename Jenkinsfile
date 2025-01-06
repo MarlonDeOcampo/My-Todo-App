@@ -12,11 +12,6 @@ pipeline {
         )
     }
     stages {
-        // stage('Clean Workspace') {
-        //     steps {
-        //         deleteDir() 
-        //     }
-        // }
         stage('Checkout Code') {
             steps {
                 checkout([
@@ -32,7 +27,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t alhon05/my-todo-app:${BUILD_NUMBER} .
+                docker build -t alhon05/my-todo-app:${BUILD_NUMBER} -t alhon05/my-todo-app:latest .
                 '''
             }
         }
@@ -40,7 +35,10 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'hub_creds') {
-                        sh 'docker push alhon05/my-todo-app:${BUILD_NUMBER}'
+                        sh '''
+                        docker push alhon05/my-todo-app:${BUILD_NUMBER}
+                        docker push alhon05/my-todo-app:latest
+                        '''
                     }
                 }
             }
