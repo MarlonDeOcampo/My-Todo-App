@@ -48,7 +48,7 @@ pipeline {
         stage('Deploy to Docker Swarm') {
             steps {
                 sh '''
-                sshpass -p 'kayle@zhane' ssh -p 33063 marlon@192.168.1.5 docker stack deploy --compose-file /home/marlon/todostack.yml my-todo-app-stack
+                sshpass -p 'kayle@zhane' ssh -p 33063 marlon@192.168.1.5 docker stack deploy --compose-file https://raw.githubusercontent.com/MarlonDeOcampo/My-Todo-App/refs/heads/main/todostack.yml my-todo-app-stack
                 '''
             }
         }
