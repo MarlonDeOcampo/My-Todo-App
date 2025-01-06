@@ -44,9 +44,6 @@ pipeline {
             }
         }
         stage('Deploy to Docker Swarm') {
-            environment {
-                BUILD_NUMBER = "${env.BUILD_NUMBER}"  // Ensure the environment variable is set correctly
-            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker_ssh_pass', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
                     sh '''
