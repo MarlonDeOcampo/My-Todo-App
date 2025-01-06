@@ -49,7 +49,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker_ssh_pass', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
                     sh '''
-                    sshpass -p "$SSH_PASS" ssh -p 33063 $SSH_USER@192.168.1.5 docker stack deploy --compose-file https://raw.githubusercontent.com/MarlonDeOcampo/My-Todo-App/refs/heads/main/todostack.yml my-todo-app-stack
+                    sshpass -p "$SSH_PASS" ssh -p 33063 $SSH_USER@192.168.1.5 docker stack deploy --compose-file https://raw.githubusercontent.com/MarlonDeOcampo/My-Todo-App/main/todostack.yml my-todo-app-stack
                     '''
                 }
             }
