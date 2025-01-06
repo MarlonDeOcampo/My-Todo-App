@@ -32,7 +32,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'a5c3815e-5cd4-4edd-b1ff-cb23667a6aa9') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub_creds') {
                         sh 'docker push alhon05/my-todo-app:${BUILD_NUMBER}'
                     }
                 }
