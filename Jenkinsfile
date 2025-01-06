@@ -40,9 +40,11 @@ pipeline {
         }
         stage('Deploy to Docker Swarm') {
             steps {
-                sh '''
-                sshpass -p 'kayle@zhane' ssh -p 33063 marlon@192.168.1.5 docker stack deploy --compose-file /home/marlon/todostack.yml my-todo-app-stack
-                '''
+                withCredentials([usernamePassword(credentialsId: 'docker_ssh_pass', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
+                    sh '''
+                    sshpass -p "$SSH_PASS" ssh -p 33063 $SSH_USER@192.168.1.5 docker stack deploy --compose-file /home/marlon/todostack.yml my-todo-app-stack
+                    '''
+                }
             }
         }
         stage('Clean Local Docker Images') {
