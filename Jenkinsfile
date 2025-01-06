@@ -19,7 +19,14 @@ pipeline {
         }
         stage('Checkout Code') {
             steps {
-                checkout scm
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/MarlonDeOcampo/My-Todo-App.git',
+                        credentialsId: "github_token"
+                    ]]
+                ])
             }
         }
         stage('Build Docker Image') {
